@@ -1,0 +1,21 @@
+services:
+  docker-s3-linker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - AWS_CLI_ARCH_SUFFIX=x86_64 # Change to aarch64 if needed (if platform is ARM)
+    # platform: linux/arm64
+    container_name: docker-s3-linker
+    volumes:
+      - ./.aws:/root/.aws
+      # Complete here with your files (more information in README)
+      # - ./test-link:/mnt/buckets/test-link
+    restart: unless-stopped
+    environment:
+      - AWS_PROFILE=${ACTIVE_PROFILE}
+      - SYNC_ARGUMENTS=${SYNC_ARGUMENTS}
+      - DELAY=${DELAY}
+      - LINK_FROM_S3_BUCKET=${LINK_FROM_S3_BUCKET}
+      - LINK_TO_S3_BUCKET=${LINK_TO_S3_BUCKET}
+      - DEBUG=${DEBUG}
