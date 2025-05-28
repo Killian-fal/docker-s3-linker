@@ -1,0 +1,19 @@
+services:
+  docker-s3-linker-classic:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    container_name: docker-s3-linker-classic
+    volumes:
+      - ./.aws:/root/.aws
+      - ./myfile:/mnt/buckets/bucket1
+      - ./two:/mnt/buckets/bucket2
+      - ./yes:/mnt/buckets/bucket3
+    restart: unless-stopped
+    environment:
+      - AWS_PROFILE=${ACTIVE_PROFILE}
+      - SYNC_ARGUMENTS=${SYNC_ARGUMENTS}
+      - DELAY=${DELAY}
+      - LINK_FROM_S3_BUCKET=${LINK_FROM_S3_BUCKET}
+      - LINK_TO_S3_BUCKET=${LINK_TO_S3_BUCKET}
+      - DEBUG=${DEBUG}
